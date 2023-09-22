@@ -7,18 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3622059A2ABCFE540066E631 /* ModuleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362205992ABCFE540066E631 /* ModuleControl.swift */; };
 		96F75A072962D9EF00D36D9F /* BLEScannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F75A062962D9EF00D36D9F /* BLEScannerApp.swift */; };
-		96F75A092962D9EF00D36D9F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F75A082962D9EF00D36D9F /* ContentView.swift */; };
+		96F75A092962D9EF00D36D9F /* DeviceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F75A082962D9EF00D36D9F /* DeviceList.swift */; };
 		96F75A0B2962D9F100D36D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F75A0A2962D9F100D36D9F /* Assets.xcassets */; };
 		96F75A0F2962D9F100D36D9F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F75A0E2962D9F100D36D9F /* Preview Assets.xcassets */; };
 		96FF6D5E2965BF5E009BC20C /* BLEScannerClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FF6D5D2965BF5E009BC20C /* BLEScannerClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		362205992ABCFE540066E631 /* ModuleControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleControl.swift; sourceTree = "<group>"; };
 		96EC7A282966FED200D07500 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		96F75A032962D9EF00D36D9F /* BLEScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLEScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F75A062962D9EF00D36D9F /* BLEScannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEScannerApp.swift; sourceTree = "<group>"; };
-		96F75A082962D9EF00D36D9F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		96F75A082962D9EF00D36D9F /* DeviceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceList.swift; sourceTree = "<group>"; };
 		96F75A0A2962D9F100D36D9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96F75A0C2962D9F100D36D9F /* BLEScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BLEScanner.entitlements; sourceTree = "<group>"; };
 		96F75A0E2962D9F100D36D9F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -58,7 +60,8 @@
 				96EC7A282966FED200D07500 /* Info.plist */,
 				96F75A062962D9EF00D36D9F /* BLEScannerApp.swift */,
 				96FF6D5D2965BF5E009BC20C /* BLEScannerClass.swift */,
-				96F75A082962D9EF00D36D9F /* ContentView.swift */,
+				96F75A082962D9EF00D36D9F /* DeviceList.swift */,
+				362205992ABCFE540066E631 /* ModuleControl.swift */,
 				96F75A0A2962D9F100D36D9F /* Assets.xcassets */,
 				96F75A0C2962D9F100D36D9F /* BLEScanner.entitlements */,
 				96F75A0D2962D9F100D36D9F /* Preview Content */,
@@ -144,7 +147,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96F75A092962D9EF00D36D9F /* ContentView.swift in Sources */,
+				96F75A092962D9EF00D36D9F /* DeviceList.swift in Sources */,
+				3622059A2ABCFE540066E631 /* ModuleControl.swift in Sources */,
 				96FF6D5E2965BF5E009BC20C /* BLEScannerClass.swift in Sources */,
 				96F75A072962D9EF00D36D9F /* BLEScannerApp.swift in Sources */,
 			);
@@ -275,7 +279,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BLEScanner/Preview Content\"";
-				DEVELOPMENT_TEAM = 7Q5YAR7JQV;
+				DEVELOPMENT_TEAM = 4KXH2966B6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -298,13 +302,15 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cmg-software.blescan";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kemerelab.blescan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -317,7 +323,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BLEScanner/Preview Content\"";
-				DEVELOPMENT_TEAM = 7Q5YAR7JQV;
+				DEVELOPMENT_TEAM = 4KXH2966B6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -340,13 +346,15 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cmg-software.blescan";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kemerelab.blescan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

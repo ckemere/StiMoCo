@@ -36,13 +36,16 @@ class BluetoothScanner: NSObject, CBCentralManagerDelegate, ObservableObject {
             objectWillChange.send()
 
             // Start scanning for peripherals
-            centralManager.scanForPeripherals(withServices: nil)
+            let GOVEE_SERVICE_UUID = CBUUID(string: "EC88")
+            centralManager.scanForPeripherals(withServices: [GOVEE_SERVICE_UUID])
+//            centralManager.scanForPeripherals(withServices: nil)
 
             // Start a timer to stop and restart the scan every 2 seconds
             timer?.invalidate()
             timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] timer in
                 self?.centralManager.stopScan()
-                self?.centralManager.scanForPeripherals(withServices: nil)
+                self?.centralManager.scanForPeripherals(withServices: [GOVEE_SERVICE_UUID])
+//                self?.centralManager.scanForPeripherals(withServices: nil)
             }
         }
     }
