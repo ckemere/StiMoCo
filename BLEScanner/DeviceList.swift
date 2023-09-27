@@ -22,63 +22,35 @@ struct ModuleRow: View {
 
 
 struct DeviceList: View {
-    @ObservedObject private var bluetoothScanner = BluetoothScanner()
+    @StateObject private var bleManager = BluetoothManager()
+//    @ObservedObject private var bleManager = BluetoothScanner()
 //    @State private var searchText = ""
 
     var body: some View {
         VStack {
             NavigationView {
                 // List of discovered peripherals
-//                List {
-//                    ForEach(bluetoothScanner.discoveredPeripherals,
-//                            id: \.peripheral.identifier) { module in
-//                        NavigationLink {
-//                            ModuleControl(module: module)
-//                        } label: {
-//                            ModuleRow(module: module)
-//                        }
-//                    }
-//                }
-                
-//                List(bluetoothScanner.discoveredPeripherals,
-//                     id: \.peripheral.identifier) { module in
-//                    NavigationLink {
-//                        ModuleControl(module: module)
-//                    } label: {
-//                        ModuleRow(module: module)
-//                    }
-//
-//                }
-                List($bluetoothScanner.discoveredPeripherals,
-                     id: \.peripheral.identifier) { $module in
+                List(bleManager.discoveredPeripherals,
+                     id: \.peripheral.identifier) { module in
                     NavigationLink{
-                        ModuleControl(module:$module)
+                        ModuleControl(module:module)
                     } label: {
                         ModuleRow(module:module)
                     }
                 }
                 .navigationTitle("Discovered Modules")
-                
-//                List(bluetoothScanner.discoveredPeripherals,
-//                     id: \.peripheral.identifier) { discoveredPeripheral in
-//                    VStack(alignment: .leading) {
-//                        Text(discoveredPeripheral.peripheral.name ?? "Unknown Device")
-//                        Text(discoveredPeripheral.advertisedData)
-//                            .font(.caption)
-//                            .foregroundColor(.gray)
-//                    }
-//                }
-//                     .navigationTitle("Discovered Modules")
             }
+            .environmentObject(bleManager)
+
             // Button for starting or stopping scanning
             Button(action: {
-                if self.bluetoothScanner.isScanning {
-                    self.bluetoothScanner.stopScan()
+                if self.bleManager.isScanning {
+                    self.bleManager.stopScan()
                 } else {
-                    self.bluetoothScanner.startScan()
+                    self.bleManager.startScan()
                 }
             }) {
-                if bluetoothScanner.isScanning {
+                if bleManager.isScanning {
                     Text("Stop Scanning")
                 } else {
                     Text("Scan for Devices")
@@ -86,7 +58,7 @@ struct DeviceList: View {
             }
             // Button looks cooler this way on iOS
             .padding()
-            .background(bluetoothScanner.isScanning ? Color.red : Color.blue)
+            .background(bleManager.isScanning ? Color.red : Color.blue)
             .foregroundColor(Color.white)
             .cornerRadius(5.0)
 

@@ -8,15 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		3622059A2ABCFE540066E631 /* ModuleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362205992ABCFE540066E631 /* ModuleControl.swift */; };
+		3622059E2ABFD4640066E631 /* ModuleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3622059D2ABFD4640066E631 /* ModuleDetail.swift */; };
 		96F75A072962D9EF00D36D9F /* BLEScannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F75A062962D9EF00D36D9F /* BLEScannerApp.swift */; };
 		96F75A092962D9EF00D36D9F /* DeviceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F75A082962D9EF00D36D9F /* DeviceList.swift */; };
 		96F75A0B2962D9F100D36D9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F75A0A2962D9F100D36D9F /* Assets.xcassets */; };
 		96F75A0F2962D9F100D36D9F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F75A0E2962D9F100D36D9F /* Preview Assets.xcassets */; };
-		96FF6D5E2965BF5E009BC20C /* BLEScannerClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FF6D5D2965BF5E009BC20C /* BLEScannerClass.swift */; };
+		96FF6D5E2965BF5E009BC20C /* BLEManagerClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FF6D5D2965BF5E009BC20C /* BLEManagerClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		362205992ABCFE540066E631 /* ModuleControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleControl.swift; sourceTree = "<group>"; };
+		3622059D2ABFD4640066E631 /* ModuleDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleDetail.swift; sourceTree = "<group>"; };
 		96EC7A282966FED200D07500 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		96F75A032962D9EF00D36D9F /* BLEScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLEScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F75A062962D9EF00D36D9F /* BLEScannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEScannerApp.swift; sourceTree = "<group>"; };
@@ -24,7 +26,7 @@
 		96F75A0A2962D9F100D36D9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96F75A0C2962D9F100D36D9F /* BLEScanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BLEScanner.entitlements; sourceTree = "<group>"; };
 		96F75A0E2962D9F100D36D9F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		96FF6D5D2965BF5E009BC20C /* BLEScannerClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEScannerClass.swift; sourceTree = "<group>"; };
+		96FF6D5D2965BF5E009BC20C /* BLEManagerClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManagerClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,8 +61,9 @@
 			children = (
 				96EC7A282966FED200D07500 /* Info.plist */,
 				96F75A062962D9EF00D36D9F /* BLEScannerApp.swift */,
-				96FF6D5D2965BF5E009BC20C /* BLEScannerClass.swift */,
+				96FF6D5D2965BF5E009BC20C /* BLEManagerClass.swift */,
 				96F75A082962D9EF00D36D9F /* DeviceList.swift */,
+				3622059D2ABFD4640066E631 /* ModuleDetail.swift */,
 				362205992ABCFE540066E631 /* ModuleControl.swift */,
 				96F75A0A2962D9F100D36D9F /* Assets.xcassets */,
 				96F75A0C2962D9F100D36D9F /* BLEScanner.entitlements */,
@@ -105,7 +108,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					96F75A022962D9EF00D36D9F = {
 						CreatedOnToolsVersion = 14.2;
@@ -148,8 +151,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				96F75A092962D9EF00D36D9F /* DeviceList.swift in Sources */,
+				3622059E2ABFD4640066E631 /* ModuleDetail.swift in Sources */,
 				3622059A2ABCFE540066E631 /* ModuleControl.swift in Sources */,
-				96FF6D5E2965BF5E009BC20C /* BLEScannerClass.swift in Sources */,
+				96FF6D5E2965BF5E009BC20C /* BLEManagerClass.swift in Sources */,
 				96F75A072962D9EF00D36D9F /* BLEScannerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +194,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -250,6 +255,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -278,6 +284,7 @@
 				CODE_SIGN_ENTITLEMENTS = BLEScanner/BLEScanner.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"BLEScanner/Preview Content\"";
 				DEVELOPMENT_TEAM = 4KXH2966B6;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -322,6 +329,7 @@
 				CODE_SIGN_ENTITLEMENTS = BLEScanner/BLEScanner.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"BLEScanner/Preview Content\"";
 				DEVELOPMENT_TEAM = 4KXH2966B6;
 				ENABLE_HARDENED_RUNTIME = YES;
