@@ -20,12 +20,18 @@ private struct ModuleUUIDs {
 struct StimParameters:Equatable {
     var period: UInt16 = 0
     var current: UInt8 = 0
+    var frequency: Int = 0
 }
 
 struct DataFreshness {
     var uptime = false
     var period = false
     var current = false
+}
+
+struct UpdateFreshness {
+    var period = true
+    var current = true
 }
 
 
@@ -57,6 +63,7 @@ class DiscoveredPeripheral: NSObject, CBPeripheralDelegate, ObservableObject {
     @Published var uptime: UInt32 = 0
     
     var dataFreshness: DataFreshness = DataFreshness()
+    @Published var updateFreshness : UpdateFreshness = UpdateFreshness()
     
     private var moduleService: CBService?
     private var moduleUptimeCharacteristic: CBCharacteristic?
@@ -155,6 +162,14 @@ class DiscoveredPeripheral: NSObject, CBPeripheralDelegate, ObservableObject {
         }
     }
     
+    func requery_module() {
+        dataFreshness.uptime = false;
+        dataFreshness.current = false;
+        dataFreshness.period = false;
+        
+        queryModuleData()
+    }
+    
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let data = characteristic.value else {
             print("No data received in characteristic")
@@ -178,8 +193,8 @@ class DiscoveredPeripheral: NSObject, CBPeripheralDelegate, ObservableObject {
                 return
             }
             (data as NSData).getBytes(&stimParameters.period, length: MemoryLayout<UInt16>.size)
+            stimParameters.frequency = Int(32768/stimParameters.period)
             dataFreshness.period = true;
-            print(stimParameters.period)
 
         case ModuleUUIDs.UptimeCharactersticUUID:
             guard data.count == 4 else {
@@ -200,21 +215,63 @@ class DiscoveredPeripheral: NSObject, CBPeripheralDelegate, ObservableObject {
         }
     
     }
+
+    func updateFrequency(new_frequency: Int) {
+        guard connectionState == ConnectionState.connected else {
+            print("Not sure how we got here.")
+            return
+        }
+        guard let periodCharacteristic = modulePeriodCharacteristic else {
+            print("Error: period characteristic is nil")
+            return
+        }
+        
+        var value = UInt32(32768.0 / Float(new_frequency))
+        
+        let ns = NSData(bytes: &value, length: MemoryLayout<UInt16>.size)
+        peripheral.writeValue(ns as Data, for: periodCharacteristic, type: .withResponse)
+        
+        updateFreshness.period = false
+    }
     
-//    func writeModuleData(val:Int) {
-//        print("Received frequency: \(val)")
-//        guard let AmpFreqBoard = AmpFreqBoard, let FrequencyCharacteristic = FrequencyCharacteristic else {
-//            print("Error: AmpFreq or AmplitudeCharacteristic is nil")
-//            return
-//        }
-//
-//        var value = val
-//
-//        let ns = NSData(bytes: &value, length: MemoryLayout<UInt8>.size)
-//        AmpFreqBoard.writeValue(ns as Data, for: FrequencyCharacteristic, type: .withResponse)
-//
-//        print("Value: \(value)")
-//    }
+    func updateCurrent(new_current: UInt8) {
+        guard connectionState == ConnectionState.connected else {
+            print("Not sure how we got here.")
+            return
+        }
+        guard let currentCharacteristic = moduleCurrentCharacteristic else {
+            print("Error: current characteristic is nil")
+            return
+        }
+        
+        var value = new_current
+        
+        let ns = NSData(bytes: &value, length: MemoryLayout<UInt8>.size)
+        peripheral.writeValue(ns as Data, for: currentCharacteristic, type: .withResponse)
+        
+        updateFreshness.current = false
+    }
+    
+    
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        guard let data = characteristic.value else {
+            print("No data received in characteristic")
+            return
+        }
+        print("Value recevied for characteristic: \(characteristic)")
+
+        switch characteristic.uuid {
+        case ModuleUUIDs.CurrentCharactersticUUID:
+            updateFreshness.current = true;
+
+        case ModuleUUIDs.PeriodCharactersticUUID:
+            updateFreshness.period = true;
+            
+        default:
+            break
+        }
+    }
+    
     
 }
 

@@ -6,46 +6,73 @@
 //
 
 /*
-See the License.txt file for this sample’s licensing information.
-*/
+ See the License.txt file for this sample’s licensing information.
+ */
 
 
 import SwiftUI
 
-let stimFrequencies:[UInt16] = [40, 120, 130]
-let stimCurrents:[UInt8] = [40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
-
+let stimFrequencies = [Int](0...200)
+let stimCurrents = [UInt8](0...200)
 
 struct ModuleDetail: View {
-    @Binding var originalStimParams: StimParameters
-    @Binding var newStimParams: StimParameters
-    @Binding var parametersChanged: Bool
-
-//    @Environment(\.dismiss) private var dismiss
+    @Binding var stimParams: StimParameters
+    @Binding var updateFreshness: UpdateFreshness
+    @State var is_active = true
+//    @Binding var parametersChanged: Bool
+    //    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Picker("Stim Frequency", selection: $newStimParams.period) {
-                ForEach(stimFrequencies, id: \.self) {sf in
-                    Text(String("\(sf) Hz"))
+        VStack {
+            HStack {
+                if (!updateFreshness.period) {
+                    Text(Image(systemName:"timelapse")) + Text("Stim Frequency")
+                        .font(.title2)
+                        .foregroundColor(Color.gray)
                 }
+                else {
+                    Text("Stim Frequency")
+                        .font(.title2)
+                }
+                
+                Picker("Stim Frequency", selection: $stimParams.frequency)
+                {
+                    ForEach(stimFrequencies, id:\.self) {
+                        Text("\($0) Hz")
+                    }
+                }
+                .pickerStyle(.wheel)
+                .frame(width: 150, height: 100)
+                .clipped()
+                .allowsHitTesting(is_active)
             }
-            .onChange(of: newStimParams.period, perform: {_ in
-                if (newStimParams.period != originalStimParams.period) {
-                    parametersChanged = true
+            HStack {
+                if (!updateFreshness.current) {
+                    Text(Image(systemName:"timelapse")) + Text("Stim Current")
+                        .font(.title2)
+                        .foregroundColor(Color.gray)
                 }
-            })
-            Picker("Stim Current", selection: $newStimParams.current) {
-                ForEach(stimCurrents, id: \.self) {sc in
-                    Text(String("\(sc) µA"))
+                else {
+                    Text("Stim Current")
+                        .font(.title2)
                 }
-            }
-            .onChange(of: newStimParams.current, perform: {_ in
-                if (newStimParams.current != originalStimParams.current) {
-                    parametersChanged = true
-                }
-            })
 
+                Picker("Stim Current", selection: $stimParams.current)
+                {
+                    ForEach(stimCurrents, id:\.self) {
+                        Text("\($0) µA")
+                    }
+                }
+                .pickerStyle(.wheel)
+                .frame(width: 150, height: 100)
+                .clipped()
+                .allowsHitTesting(is_active)
+            }
+//            .onChange(of: newStimParams.current, perform: {_ in
+//                if (newStimParams.current != originalStimParams.current) {
+//                    parametersChanged = true
+//                }
+//            })
         }
     }
 }
