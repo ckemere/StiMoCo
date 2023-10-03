@@ -34,7 +34,7 @@ struct ModuleControl: View {
         var minutes = (seconds - hours*3600)/60
         var residual = seconds - hours*3600 - minutes*60
         
-        return String(format: "%02d:%02d:%02d", hours, minutes, residual)
+        return String(format: "%d:%02d:%02d", hours, minutes, residual)
     }
     
     var body: some View {
