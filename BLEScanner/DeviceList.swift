@@ -34,6 +34,16 @@ struct DeviceList: View {
                      id: \.peripheral.identifier) { module in
                     NavigationLink{
                         ModuleControl(module:module)
+                            .border(Color.gray)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .onAppear(){
+                                bleManager.connectToDevice(module: module)
+                            }
+                            .onDisappear(){
+                                bleManager.disconnectFromDevice(module: module)
+                                module.connectionState = ConnectionState.not_connected
+                                module.scanningState = ScanningState.not_connected
+                            }
                     } label: {
                         ModuleRow(module:module)
                     }

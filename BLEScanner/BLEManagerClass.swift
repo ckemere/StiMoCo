@@ -254,10 +254,6 @@ class DiscoveredPeripheral: NSObject, CBPeripheralDelegate, ObservableObject {
     
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        guard let data = characteristic.value else {
-            print("No data received in characteristic")
-            return
-        }
         print("Value recevied for characteristic: \(characteristic)")
 
         switch characteristic.uuid {
@@ -369,9 +365,6 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, ObservableObject {
         }
     }
 
-//    @Published var isBluetoothReady = false
-//    @Published var isDeviceFound = false
-
     func connectToDevice(module: DiscoveredPeripheral) {
         print("Trying to connect \(module.peripheral.name)")
 
@@ -391,7 +384,6 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, ObservableObject {
                 let module = discoveredPeripherals[index]
                 module.peripheral.delegate = module
                 module.connectionState = ConnectionState.connected
-//                module.objectWillChange.send()
                 objectWillChange.send()
                 // Call module scan!
                 module.discoverModuleService()
@@ -412,10 +404,15 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, ObservableObject {
                 let module = discoveredPeripherals[index]
                 module.connectionState = ConnectionState.not_connected
                 module.scanningState = ScanningState.not_connected
-//                module.objectWillChange.send()
                 objectWillChange.send()
             }
         }
+    }
+    
+    func disconnectFromDevice(module: DiscoveredPeripheral) {
+        print("Disconnecting \(module.peripheral.name)")
+
+        centralManager.cancelPeripheralConnection(module.peripheral)
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnect peripheral: CBPeripheral) {
