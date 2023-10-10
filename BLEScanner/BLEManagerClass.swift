@@ -46,13 +46,15 @@ enum ScanningState {
 
 // Class to interface with discovered peripherals
 class DiscoveredPeripheral: NSObject, CBPeripheralDelegate, ObservableObject {
+    @Published var moduleID: UInt8
+    @Published var rssi: Int
     var peripheral: CBPeripheral
+    
 //    @Binding var bleManager: CBCentralManager
     
     @Published var connectionState: ConnectionState = ConnectionState.not_connected
     @Published var scanningState: ScanningState = ScanningState.not_connected
 
-    var advertisedData: String
     
     // Data received from BLE characteristics
     @Published var stimParameters: StimParameters = StimParameters() {
@@ -71,9 +73,10 @@ class DiscoveredPeripheral: NSObject, CBPeripheralDelegate, ObservableObject {
     private var modulePeriodCharacteristic: CBCharacteristic?
 
     
-    init(peripheral: CBPeripheral, advertisedData: String) {
+    init(peripheral: CBPeripheral, moduleID: UInt8, rssi: Int) {
         self.peripheral = peripheral
-        self.advertisedData = advertisedData
+        self.moduleID = moduleID
+        self.rssi = Int(rssi)
         super.init()
     }
     
@@ -348,18 +351,27 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, ObservableObject {
         dateFormatter.dateFormat = "HH:mm:ss"
         let dateString = dateFormatter.string(from: Date(timeIntervalSince1970: timestampValue))
 
-        advertisedData = "actual rssi: \(RSSI) dB\n" + "Timestamp: \(dateString)\n" + advertisedData
+//        advertisedData = "actual rssi: \(RSSI) dB\n" + "Timestamp: \(dateString)\n" + advertisedData
+        
+        var moduleID = UInt8(255)
+        if let manufacturerData = advertisementData["kCBAdvDataManufacturerData"] as? Data {
+            assert(manufacturerData.count >= 3)
+            moduleID = UInt8(manufacturerData[2])
+        }
         
         // If the peripheral is not already in the list
         if !discoveredPeripheralSet.contains(peripheral) {
             // Add it to the list and the set
-            discoveredPeripherals.append(DiscoveredPeripheral(peripheral: peripheral, advertisedData: advertisedData))
+            discoveredPeripherals.append(DiscoveredPeripheral(peripheral: peripheral,
+                                                              moduleID: moduleID,
+                                                              rssi: Int(RSSI)))
             discoveredPeripheralSet.insert(peripheral)
             objectWillChange.send()
         } else {
             // If the peripheral is already in the list, update its advertised data
             if let index = discoveredPeripherals.firstIndex(where: { $0.peripheral == peripheral }) {
-                discoveredPeripherals[index].advertisedData = advertisedData
+                discoveredPeripherals[index].moduleID = moduleID
+                discoveredPeripherals[index].rssi = Int(RSSI)
                 objectWillChange.send()
             }
         }

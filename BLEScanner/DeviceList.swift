@@ -8,21 +8,38 @@ import SwiftUI
 import CoreBluetooth
 
 
-struct ModuleRow: View {
-    let module: DiscoveredPeripheral
-    
+func calculateBars(rssi: Int) -> Int {
+    switch rssi {
+    case -39..<Int.max:
+        return 5
+    case -49..<(-39):
+        return 4
+    case -59..<(-49):
+        return 3
+    case -69..<(-59):
+        return 2
+    case -79..<(-69):
+        return 1
+    default:
+        return 0
+    }
+}
+
+struct SignalStrengthIndicator: View {
+    var rssi:Int = -100
     var body: some View {
         HStack {
-//            Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
-            Text(module.peripheral.name ?? "Unknown Device")
-                .fontWeight(.bold)
+            ForEach(0..<5) { bar in
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.primary.opacity(bar < calculateBars(rssi: self.rssi) ? 1 : 0.3))
+            }
         }
     }
 }
 
 
 struct DeviceList: View {
-    @StateObject private var bleManager = BluetoothManager()
+    @StateObject var bleManager = BluetoothManager()
 //    @ObservedObject private var bleManager = BluetoothScanner()
 //    @State private var searchText = ""
 
@@ -32,8 +49,8 @@ struct DeviceList: View {
                 // List of discovered peripherals
                 List(bleManager.discoveredPeripherals,
                      id: \.peripheral.identifier) { module in
-                    NavigationLink{
-                        ModuleControl(module:module)
+                    NavigationLink(
+                    destination: ModuleControl(module:module)
                             .border(Color.gray)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .onAppear(){
@@ -44,9 +61,19 @@ struct DeviceList: View {
                                 module.connectionState = ConnectionState.not_connected
                                 module.scanningState = ScanningState.not_connected
                             }
-                    } label: {
-                        ModuleRow(module:module)
-                    }
+                    , label: {
+                        HStack {
+                            Text("StiMo Module: \(module.moduleID)")
+                                .fontWeight(.bold)
+                                .frame(width: 225, alignment: .leading)
+                                .font(.title2)
+                            VStack {
+                                SignalStrengthIndicator(rssi: module.rssi)
+                                Text("\(module.rssi)dB").font(.subheadline)
+                            }
+                        }
+
+                    })
                 }
                 .navigationTitle("Discovered Modules")
             }
